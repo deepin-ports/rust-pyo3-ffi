@@ -1,59 +1,58 @@
 Source: rust-pyo3-ffi
 Section: rust
+Priority: optional
 Build-Depends: debhelper-compat (= 13),
  dh-sequence-cargo
 Build-Depends-Arch: cargo:native <!nocheck>,
- rustc:native (>= 1.83) <!nocheck>,
+ rustc:native (>= 1.63) <!nocheck>,
  libstd-rust-dev <!nocheck>,
- librust-libc-0.2+default-dev (>= 0.2.62) <!nocheck>,
- librust-pyo3-build-config-0.28+default-dev (<< 0.28.3) <!nocheck>,
- librust-pyo3-build-config-0.28+default-dev (>= 0.28.2) <!nocheck>,
- librust-pyo3-build-config-0.28+resolve-config-dev (<< 0.28.3) <!nocheck>,
- librust-pyo3-build-config-0.28+resolve-config-dev (>= 0.28.2) <!nocheck>,
- libpython3-all-dev <!nocheck>,
- python3-all-dev:native <!nocheck>
+ librust-libc-0.2+default-dev (>= 0.2.62-~~) <!nocheck>,
+ librust-pyo3-build-config-0.25+default-dev (<< 0.25.2-~~) <!nocheck>,
+ librust-pyo3-build-config-0.25+default-dev (>= 0.25.1-~~) <!nocheck>,
+ librust-pyo3-build-config-0.25+resolve-config-dev (<< 0.25.2-~~) <!nocheck>,
+ librust-pyo3-build-config-0.25+resolve-config-dev (>= 0.25.1-~~) <!nocheck>,
+ python3-all-dev <!nocheck>
 Maintainer: Debian Rust Maintainers <pkg-rust-maintainers@alioth-lists.debian.net>
 Uploaders:
  Jelmer Vernooĳ <jelmer@debian.org>
-Standards-Version: 4.7.3
+Standards-Version: 4.7.0
 Vcs-Git: https://salsa.debian.org/rust-team/debcargo-conf.git [src/pyo3-ffi]
 Vcs-Browser: https://salsa.debian.org/rust-team/debcargo-conf/tree/master/src/pyo3-ffi
 Homepage: https://github.com/pyo3/pyo3
 X-Cargo-Crate: pyo3-ffi
-X-Cargo-Crate-Version: 0.28.2
+Rules-Requires-Root: no
 
 Package: librust-pyo3-ffi-dev
 Architecture: any
 Multi-Arch: same
 Depends:
  ${misc:Depends},
- librust-libc-0.2+default-dev (>= 0.2.62),
- librust-pyo3-build-config-0.28+abi3-dev (<< 0.28.3),
- librust-pyo3-build-config-0.28+abi3-dev (>= 0.28.2),
- librust-pyo3-build-config-0.28+abi3-py310-dev (<< 0.28.3),
- librust-pyo3-build-config-0.28+abi3-py310-dev (>= 0.28.2),
- librust-pyo3-build-config-0.28+abi3-py311-dev (<< 0.28.3),
- librust-pyo3-build-config-0.28+abi3-py311-dev (>= 0.28.2),
- librust-pyo3-build-config-0.28+abi3-py312-dev (<< 0.28.3),
- librust-pyo3-build-config-0.28+abi3-py312-dev (>= 0.28.2),
- librust-pyo3-build-config-0.28+abi3-py313-dev (<< 0.28.3),
- librust-pyo3-build-config-0.28+abi3-py313-dev (>= 0.28.2),
- librust-pyo3-build-config-0.28+abi3-py314-dev (<< 0.28.3),
- librust-pyo3-build-config-0.28+abi3-py314-dev (>= 0.28.2),
- librust-pyo3-build-config-0.28+abi3-py37-dev (<< 0.28.3),
- librust-pyo3-build-config-0.28+abi3-py37-dev (>= 0.28.2),
- librust-pyo3-build-config-0.28+abi3-py38-dev (<< 0.28.3),
- librust-pyo3-build-config-0.28+abi3-py38-dev (>= 0.28.2),
- librust-pyo3-build-config-0.28+abi3-py39-dev (<< 0.28.3),
- librust-pyo3-build-config-0.28+abi3-py39-dev (>= 0.28.2),
- librust-pyo3-build-config-0.28+default-dev (<< 0.28.3),
- librust-pyo3-build-config-0.28+default-dev (>= 0.28.2),
- librust-pyo3-build-config-0.28+extension-module-dev (<< 0.28.3),
- librust-pyo3-build-config-0.28+extension-module-dev (>= 0.28.2),
- librust-pyo3-build-config-0.28+resolve-config-dev (<< 0.28.3),
- librust-pyo3-build-config-0.28+resolve-config-dev (>= 0.28.2),
- libpython3-all-dev,
- python3-all-dev:any
+ librust-libc-0.2+default-dev (>= 0.2.62-~~),
+ librust-pyo3-build-config-0.25+abi3-dev (<< 0.25.2-~~),
+ librust-pyo3-build-config-0.25+abi3-dev (>= 0.25.1-~~),
+ librust-pyo3-build-config-0.25+abi3-py310-dev (<< 0.25.2-~~),
+ librust-pyo3-build-config-0.25+abi3-py310-dev (>= 0.25.1-~~),
+ librust-pyo3-build-config-0.25+abi3-py311-dev (<< 0.25.2-~~),
+ librust-pyo3-build-config-0.25+abi3-py311-dev (>= 0.25.1-~~),
+ librust-pyo3-build-config-0.25+abi3-py312-dev (<< 0.25.2-~~),
+ librust-pyo3-build-config-0.25+abi3-py312-dev (>= 0.25.1-~~),
+ librust-pyo3-build-config-0.25+abi3-py313-dev (<< 0.25.2-~~),
+ librust-pyo3-build-config-0.25+abi3-py313-dev (>= 0.25.1-~~),
+ librust-pyo3-build-config-0.25+abi3-py314-dev (<< 0.25.2-~~),
+ librust-pyo3-build-config-0.25+abi3-py314-dev (>= 0.25.1-~~),
+ librust-pyo3-build-config-0.25+abi3-py37-dev (<< 0.25.2-~~),
+ librust-pyo3-build-config-0.25+abi3-py37-dev (>= 0.25.1-~~),
+ librust-pyo3-build-config-0.25+abi3-py38-dev (<< 0.25.2-~~),
+ librust-pyo3-build-config-0.25+abi3-py38-dev (>= 0.25.1-~~),
+ librust-pyo3-build-config-0.25+abi3-py39-dev (<< 0.25.2-~~),
+ librust-pyo3-build-config-0.25+abi3-py39-dev (>= 0.25.1-~~),
+ librust-pyo3-build-config-0.25+default-dev (<< 0.25.2-~~),
+ librust-pyo3-build-config-0.25+default-dev (>= 0.25.1-~~),
+ librust-pyo3-build-config-0.25+extension-module-dev (<< 0.25.2-~~),
+ librust-pyo3-build-config-0.25+extension-module-dev (>= 0.25.1-~~),
+ librust-pyo3-build-config-0.25+resolve-config-dev (<< 0.25.2-~~),
+ librust-pyo3-build-config-0.25+resolve-config-dev (>= 0.25.1-~~),
+ python3-all-dev
 Provides:
  librust-pyo3-ffi+abi3-dev (= ${binary:Version}),
  librust-pyo3-ffi+abi3-py310-dev (= ${binary:Version}),
@@ -78,29 +77,29 @@ Provides:
  librust-pyo3-ffi-0+abi3-py39-dev (= ${binary:Version}),
  librust-pyo3-ffi-0+default-dev (= ${binary:Version}),
  librust-pyo3-ffi-0+extension-module-dev (= ${binary:Version}),
- librust-pyo3-ffi-0.28-dev (= ${binary:Version}),
- librust-pyo3-ffi-0.28+abi3-dev (= ${binary:Version}),
- librust-pyo3-ffi-0.28+abi3-py310-dev (= ${binary:Version}),
- librust-pyo3-ffi-0.28+abi3-py311-dev (= ${binary:Version}),
- librust-pyo3-ffi-0.28+abi3-py312-dev (= ${binary:Version}),
- librust-pyo3-ffi-0.28+abi3-py313-dev (= ${binary:Version}),
- librust-pyo3-ffi-0.28+abi3-py314-dev (= ${binary:Version}),
- librust-pyo3-ffi-0.28+abi3-py37-dev (= ${binary:Version}),
- librust-pyo3-ffi-0.28+abi3-py38-dev (= ${binary:Version}),
- librust-pyo3-ffi-0.28+abi3-py39-dev (= ${binary:Version}),
- librust-pyo3-ffi-0.28+default-dev (= ${binary:Version}),
- librust-pyo3-ffi-0.28+extension-module-dev (= ${binary:Version}),
- librust-pyo3-ffi-0.28.2-dev (= ${binary:Version}),
- librust-pyo3-ffi-0.28.2+abi3-dev (= ${binary:Version}),
- librust-pyo3-ffi-0.28.2+abi3-py310-dev (= ${binary:Version}),
- librust-pyo3-ffi-0.28.2+abi3-py311-dev (= ${binary:Version}),
- librust-pyo3-ffi-0.28.2+abi3-py312-dev (= ${binary:Version}),
- librust-pyo3-ffi-0.28.2+abi3-py313-dev (= ${binary:Version}),
- librust-pyo3-ffi-0.28.2+abi3-py314-dev (= ${binary:Version}),
- librust-pyo3-ffi-0.28.2+abi3-py37-dev (= ${binary:Version}),
- librust-pyo3-ffi-0.28.2+abi3-py38-dev (= ${binary:Version}),
- librust-pyo3-ffi-0.28.2+abi3-py39-dev (= ${binary:Version}),
- librust-pyo3-ffi-0.28.2+default-dev (= ${binary:Version}),
- librust-pyo3-ffi-0.28.2+extension-module-dev (= ${binary:Version})
+ librust-pyo3-ffi-0.25-dev (= ${binary:Version}),
+ librust-pyo3-ffi-0.25+abi3-dev (= ${binary:Version}),
+ librust-pyo3-ffi-0.25+abi3-py310-dev (= ${binary:Version}),
+ librust-pyo3-ffi-0.25+abi3-py311-dev (= ${binary:Version}),
+ librust-pyo3-ffi-0.25+abi3-py312-dev (= ${binary:Version}),
+ librust-pyo3-ffi-0.25+abi3-py313-dev (= ${binary:Version}),
+ librust-pyo3-ffi-0.25+abi3-py314-dev (= ${binary:Version}),
+ librust-pyo3-ffi-0.25+abi3-py37-dev (= ${binary:Version}),
+ librust-pyo3-ffi-0.25+abi3-py38-dev (= ${binary:Version}),
+ librust-pyo3-ffi-0.25+abi3-py39-dev (= ${binary:Version}),
+ librust-pyo3-ffi-0.25+default-dev (= ${binary:Version}),
+ librust-pyo3-ffi-0.25+extension-module-dev (= ${binary:Version}),
+ librust-pyo3-ffi-0.25.1-dev (= ${binary:Version}),
+ librust-pyo3-ffi-0.25.1+abi3-dev (= ${binary:Version}),
+ librust-pyo3-ffi-0.25.1+abi3-py310-dev (= ${binary:Version}),
+ librust-pyo3-ffi-0.25.1+abi3-py311-dev (= ${binary:Version}),
+ librust-pyo3-ffi-0.25.1+abi3-py312-dev (= ${binary:Version}),
+ librust-pyo3-ffi-0.25.1+abi3-py313-dev (= ${binary:Version}),
+ librust-pyo3-ffi-0.25.1+abi3-py314-dev (= ${binary:Version}),
+ librust-pyo3-ffi-0.25.1+abi3-py37-dev (= ${binary:Version}),
+ librust-pyo3-ffi-0.25.1+abi3-py38-dev (= ${binary:Version}),
+ librust-pyo3-ffi-0.25.1+abi3-py39-dev (= ${binary:Version}),
+ librust-pyo3-ffi-0.25.1+default-dev (= ${binary:Version}),
+ librust-pyo3-ffi-0.25.1+extension-module-dev (= ${binary:Version})
 Description: Python-API bindings for the PyO3 ecosystem - Rust source code
  Source code for Debianized Rust crate "pyo3-ffi"

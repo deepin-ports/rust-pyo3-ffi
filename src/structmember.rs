@@ -1,4 +1,4 @@
-use std::ffi::c_int;
+use std::os::raw::c_int;
 
 pub use crate::PyMemberDef;
 

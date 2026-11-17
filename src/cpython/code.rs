@@ -2,11 +2,9 @@ use crate::object::*;
 use crate::pyport::Py_ssize_t;
 
 #[cfg(not(GraalPy))]
-use crate::PyCodeObject;
-#[cfg(not(GraalPy))]
-use std::ffi::c_char;
-use std::ffi::{c_int, c_void};
-#[cfg(not(PyPy))]
+use std::os::raw::c_char;
+use std::os::raw::{c_int, c_void};
+#[cfg(not(any(PyPy, GraalPy)))]
 use std::ptr::addr_of_mut;
 
 // skipped private _PY_MONITORING_LOCAL_EVENTS
@@ -30,9 +28,16 @@ use std::ptr::addr_of_mut;
 
 // skipped private _PyCoCached
 // skipped private _PyCoLineInstrumentationData
-// skipped private _PyCoMonitoringData
+// skipped private _PyCoMontoringData
 
 // skipped private _PyExecutorArray
+
+opaque_struct!(
+    #[doc = "A Python code object.\n"]
+    #[doc = "\n"]
+    #[doc = "`pyo3-ffi` does not expose the contents of this struct, as it has no stability guarantees."]
+    pub PyCodeObject
+);
 
 /* Masks for co_flags */
 pub const CO_OPTIMIZED: c_int = 0x0001;
@@ -66,14 +71,14 @@ pub const CO_FUTURE_GENERATOR_STOP: c_int = 0x8_0000;
 
 pub const CO_MAXBLOCKS: usize = 20;
 
-#[cfg(not(PyPy))]
+#[cfg(not(any(PyPy, GraalPy)))]
 #[cfg_attr(windows, link(name = "pythonXY"))]
 extern "C" {
     pub static mut PyCode_Type: PyTypeObject;
 }
 
 #[inline]
-#[cfg(not(PyPy))]
+#[cfg(not(any(PyPy, GraalPy)))]
 pub unsafe fn PyCode_Check(op: *mut PyObject) -> c_int {
     (Py_TYPE(op) == addr_of_mut!(PyCode_Type)) as c_int
 }

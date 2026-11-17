@@ -1,16 +1,16 @@
+#[cfg(all(Py_3_10, not(PyPy), not(Py_LIMITED_API)))]
+use crate::frameobject::PyFrameObject;
 use crate::moduleobject::PyModuleDef;
 use crate::object::PyObject;
-use crate::pytypedefs::{PyInterpreterState, PyThreadState};
-use std::ffi::c_int;
-
-#[cfg(any(all(Py_3_9, not(Py_LIMITED_API)), Py_3_10))]
-#[cfg(not(PyPy))]
-use crate::PyFrameObject;
+use std::os::raw::c_int;
 
 #[cfg(not(PyPy))]
-use std::ffi::c_long;
+use std::os::raw::c_long;
 
 pub const MAX_CO_EXTRA_USERS: c_int = 255;
+
+opaque_struct!(pub PyThreadState);
+opaque_struct!(pub PyInterpreterState);
 
 extern "C" {
     #[cfg(not(PyPy))]
@@ -31,10 +31,12 @@ extern "C" {
 
     #[cfg_attr(PyPy, link_name = "PyPyState_AddModule")]
     pub fn PyState_AddModule(arg1: *mut PyObject, arg2: *mut PyModuleDef) -> c_int;
+
     #[cfg_attr(PyPy, link_name = "PyPyState_RemoveModule")]
     pub fn PyState_RemoveModule(arg1: *mut PyModuleDef) -> c_int;
 
-    #[cfg_attr(PyPy, link_name = "PyPyState_FindModule")]
+    // only has PyPy prefix since 3.10
+    #[cfg_attr(all(PyPy, Py_3_10), link_name = "PyPyState_FindModule")]
     pub fn PyState_FindModule(arg1: *mut PyModuleDef) -> *mut PyObject;
 
     #[cfg_attr(PyPy, link_name = "PyPyThreadState_New")]
@@ -60,16 +62,15 @@ extern "C" {
     pub fn PyThreadState_GetDict() -> *mut PyObject;
     #[cfg(not(PyPy))]
     pub fn PyThreadState_SetAsyncExc(arg1: c_long, arg2: *mut PyObject) -> c_int;
+}
 
-    #[cfg(any(all(Py_3_9, not(Py_LIMITED_API)), Py_3_10))]
-    #[cfg(not(PyPy))]
-    pub fn PyThreadState_GetInterpreter(arg1: *mut PyThreadState) -> *mut PyInterpreterState;
-    #[cfg(any(all(Py_3_9, not(Py_LIMITED_API)), Py_3_10))]
-    #[cfg(not(PyPy))]
+// skipped non-limited / 3.9 PyThreadState_GetInterpreter
+// skipped non-limited / 3.9 PyThreadState_GetID
+
+extern "C" {
+    // PyThreadState_GetFrame
+    #[cfg(all(Py_3_10, not(PyPy), not(Py_LIMITED_API)))]
     pub fn PyThreadState_GetFrame(arg1: *mut PyThreadState) -> *mut PyFrameObject;
-    #[cfg(any(all(Py_3_9, not(Py_LIMITED_API)), Py_3_10))]
-    #[cfg(not(PyPy))]
-    pub fn PyThreadState_GetID(arg1: *mut PyThreadState) -> i64;
 }
 
 #[repr(C)]
@@ -79,10 +80,10 @@ pub enum PyGILState_STATE {
     PyGILState_UNLOCKED,
 }
 
-#[cfg(not(any(Py_3_14, target_arch = "wasm32")))]
+#[cfg(not(Py_3_14))]
 struct HangThread;
 
-#[cfg(not(any(Py_3_14, target_arch = "wasm32")))]
+#[cfg(not(Py_3_14))]
 impl Drop for HangThread {
     fn drop(&mut self) {
         loop {
@@ -100,20 +101,20 @@ impl Drop for HangThread {
 // C-unwind only supported (and necessary) since 1.71. Python 3.14+ does not do
 // pthread_exit from PyGILState_Ensure (https://github.com/python/cpython/issues/87135).
 mod raw {
-    #[cfg(not(any(Py_3_14, target_arch = "wasm32")))]
+    #[cfg(all(not(Py_3_14), rustc_has_extern_c_unwind))]
     extern "C-unwind" {
         #[cfg_attr(PyPy, link_name = "PyPyGILState_Ensure")]
         pub fn PyGILState_Ensure() -> super::PyGILState_STATE;
     }
 
-    #[cfg(any(Py_3_14, target_arch = "wasm32"))]
+    #[cfg(not(all(not(Py_3_14), rustc_has_extern_c_unwind)))]
     extern "C" {
         #[cfg_attr(PyPy, link_name = "PyPyGILState_Ensure")]
         pub fn PyGILState_Ensure() -> super::PyGILState_STATE;
     }
 }
 
-#[cfg(not(any(Py_3_14, target_arch = "wasm32")))]
+#[cfg(not(Py_3_14))]
 pub unsafe extern "C" fn PyGILState_Ensure() -> PyGILState_STATE {
     let guard = HangThread;
     // If `PyGILState_Ensure` calls `pthread_exit`, which it does on Python < 3.14
@@ -139,7 +140,7 @@ pub unsafe extern "C" fn PyGILState_Ensure() -> PyGILState_STATE {
     ret
 }
 
-#[cfg(any(Py_3_14, target_arch = "wasm32"))]
+#[cfg(Py_3_14)]
 pub use self::raw::PyGILState_Ensure;
 
 extern "C" {

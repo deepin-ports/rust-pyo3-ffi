@@ -2,7 +2,7 @@
 use crate::Py_hash_t;
 use crate::{PyObject, Py_UCS1, Py_UCS2, Py_UCS4, Py_ssize_t};
 use libc::wchar_t;
-use std::ffi::{c_char, c_int, c_uint, c_void};
+use std::os::raw::{c_char, c_int, c_uint, c_void};
 
 // skipped Py_UNICODE_ISSPACE()
 // skipped Py_UNICODE_ISLOWER()
@@ -684,26 +684,6 @@ extern "C" {
     ) -> *mut wchar_t;
 
     // skipped PyUnicode_GetMax
-}
-
-#[cfg(Py_3_14)]
-opaque_struct!(pub PyUnicodeWriter);
-
-extern "C" {
-    #[cfg(Py_3_14)]
-    pub fn PyUnicodeWriter_Create(length: Py_ssize_t) -> *mut PyUnicodeWriter;
-    #[cfg(Py_3_14)]
-    pub fn PyUnicodeWriter_Finish(writer: *mut PyUnicodeWriter) -> *mut PyObject;
-    #[cfg(Py_3_14)]
-    pub fn PyUnicodeWriter_Discard(writer: *mut PyUnicodeWriter);
-    #[cfg(Py_3_14)]
-    pub fn PyUnicodeWriter_WriteChar(writer: *mut PyUnicodeWriter, ch: Py_UCS4) -> c_int;
-    #[cfg(Py_3_14)]
-    pub fn PyUnicodeWriter_WriteUTF8(
-        writer: *mut PyUnicodeWriter,
-        str: *const c_char,
-        size: Py_ssize_t,
-    ) -> c_int;
 }
 
 // skipped _PyUnicodeWriter
